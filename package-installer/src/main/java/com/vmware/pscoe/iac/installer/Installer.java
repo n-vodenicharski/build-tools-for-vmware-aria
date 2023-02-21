@@ -558,7 +558,8 @@ public class Installer {
             String[] arr = { ConfigurationPrefix.VRO.getValue(), ConfigurationPrefix.VRANG.getValue() };
             PackageStoreFactory.getInstance(ConfigurationVroNg.fromProperties(input.getMappings(arr)))
                     .importAllPackages(getFilesystemPackages(PackageType.VRO), false);
-        } else if (input.allTrue(Option.VRO_IMPORT)){
+        } else if (input.allTrue(Option.VRO_IMPORT)){ 
+			
             PackageStoreFactory.getInstance(ConfigurationVro.fromProperties(input.getMappings(ConfigurationPrefix.VRO.getValue())))
                     .importAllPackages(getFilesystemPackages(PackageType.VRO), false);
         }
