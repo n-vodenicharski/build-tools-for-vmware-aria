@@ -132,7 +132,7 @@ public class RestClientVrliPrimitive extends RestClient {
     }
 
     protected void importContentPackPrimitive(String contentPackName, String contentPackJson) {
-        Boolean overwrite = configuration.getPackageImportOverwriteMode() == OVERWRITE_MODE;
+        Boolean overwrite = configuration.getPackageImportOverwriteMode().equals(Boolean.TRUE.toString());
         URI url = getURI(getURIBuilder().setPath(CONTENT_PACKS_API).addParameter("overwrite", overwrite.toString()));
 
         HttpHeaders headers = new HttpHeaders();
@@ -142,8 +142,8 @@ public class RestClientVrliPrimitive extends RestClient {
             restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
         } catch (HttpClientErrorException e) {
             if (HttpStatus.CONFLICT.equals(e.getStatusCode())) {
-                logger.warn("The content pack '{}' already exists on the target system and flag 'packageImportOverwriteMode' is not '{}', skipping import.",
-                        contentPackName, OVERWRITE_MODE);
+                logger.warn("The content pack '{}' already exists on the target system and flag 'packageImportOverwriteMode' is set to '{}', skipping import.",
+                        contentPackName, configuration.getPackageImportOverwriteMode());
                 return;
             }
             if (HttpStatus.BAD_REQUEST.equals(e.getStatusCode())) {
