@@ -308,7 +308,12 @@ enum Option {
             StringUtils.EMPTY),
     VRO_IMPORT(
             "vro_import_packages",
-            StringUtils.EMPTY),
+			StringUtils.EMPTY),
+	
+	VRO_ENABLE_BACKUP(
+		"vro_enable_backup",
+		StringUtils.EMPTY),
+		
     VCD_IMPORT(
             "vcd_import_packages",
             StringUtils.EMPTY),
