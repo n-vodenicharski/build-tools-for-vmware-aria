@@ -71,6 +71,7 @@ public class RestClientVrliPrimitive extends RestClient {
     private static final String PROCESS_CONTENT_PACK_DATA_ERROR = "Unable to process content pack data";
 
     private static final String VRLI_RESOURCE_KEY_TYPE = "LogInsight Server";
+    private static final String OVERWRITE_MODE = "OVERWRITE";
     private static final String VRLI_88_VERSION = "8.8";
 
     private ConfigurationVrli configuration;
@@ -131,7 +132,8 @@ public class RestClientVrliPrimitive extends RestClient {
     }
 
     protected void importContentPackPrimitive(String contentPackName, String contentPackJson) {
-        URI url = getURI(getURIBuilder().setPath(CONTENT_PACKS_API));
+        Boolean overwrite = configuration.getPackageImportOverwriteMode() == OVERWRITE_MODE;
+        URI url = getURI(getURIBuilder().setPath(CONTENT_PACKS_API).addParameter("overwrite", overwrite.toString()));
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
@@ -140,7 +142,8 @@ public class RestClientVrliPrimitive extends RestClient {
             restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
         } catch (HttpClientErrorException e) {
             if (HttpStatus.CONFLICT.equals(e.getStatusCode())) {
-                logger.warn("The content pack '{}' already exists on the target system, please uninstall it before importing again.", contentPackName);
+                logger.warn("The content pack '{}' already exists on the target system and flag 'packageImportOverwriteMode' is not '{}', skipping import.",
+                        contentPackName, OVERWRITE_MODE);
                 return;
             }
             if (HttpStatus.BAD_REQUEST.equals(e.getStatusCode())) {
