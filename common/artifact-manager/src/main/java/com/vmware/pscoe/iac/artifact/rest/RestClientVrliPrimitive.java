@@ -132,7 +132,7 @@ public class RestClientVrliPrimitive extends RestClient {
     }
 
     protected void importContentPackPrimitive(String contentPackName, String contentPackJson) {
-        Boolean overwrite = configuration.getPackageImportOverwriteMode().equals(Boolean.TRUE.toString());
+        Boolean overwrite = configuration.getPackageImportOverwriteMode().equals(Boolean.TRUE.toString()) || configuration.getPackageImportOverwriteMode().contains(OVERWRITE_MODE);
         URI url = getURI(getURIBuilder().setPath(CONTENT_PACKS_API).addParameter("overwrite", overwrite.toString()));
 
         HttpHeaders headers = new HttpHeaders();
