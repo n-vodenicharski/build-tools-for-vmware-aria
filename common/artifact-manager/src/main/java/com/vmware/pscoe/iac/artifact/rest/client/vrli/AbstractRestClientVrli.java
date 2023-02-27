@@ -110,7 +110,7 @@ public abstract class AbstractRestClientVrli extends RestClient {
             restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
         } catch (HttpClientErrorException e) {
             if (HttpStatus.CONFLICT.equals(e.getStatusCode())) {
-                logger.warn("The content pack '{}' already exists on the target system, please uninstall it before importing again.", contentPackName);
+                logger.warn("The content pack '{}' already exists on the target system and the overwite mode is set to '{}', skipping import.", contentPackName, configuration.getPackageImportOverwriteMode());
                 return;
             }
             if (HttpStatus.BAD_REQUEST.equals(e.getStatusCode())) {
