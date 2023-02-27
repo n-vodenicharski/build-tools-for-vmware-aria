@@ -34,7 +34,7 @@ jobs:
         run: mvn --version
         
       - name: Print mvn settings
-        run: cat .m2/settings.xml
+        run: cat ~/.m2/settings.xml
           
 #       - name: Build 'keystore-example'
 #         run: mvn clean install -f common/keystore-example/pom.xml
