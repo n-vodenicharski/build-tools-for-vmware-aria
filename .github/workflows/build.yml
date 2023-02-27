@@ -33,6 +33,22 @@ jobs:
       - name: Print mvn version
         run: mvn --version
         
+      - name: Add packaging profile
+        run: |
+          sed -i '/<\/settings>/i \
+          <profiles>\
+              <profile>\
+                  <id>my-profile</id>\
+                  <activation>\
+                      <activeByDefault>true</activeByDefault>\
+                  </activation>\
+                  <properties>\
+                      <my.property>my-value</my.property>\
+                  </properties>\
+              </profile>\
+          </profiles>\
+          ' ~/.m2/settings.xml 
+        
       - name: Print mvn settings
         run: cat ~/.m2/settings.xml
           
