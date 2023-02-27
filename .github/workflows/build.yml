@@ -23,6 +23,13 @@ jobs:
           distribution: 'corretto'
           java-version: '8'
           
+      - name: Print npm version
+        run: npm --version
+      - name: Print node version
+        run: node --version
+      - name: Print mvn version
+        run: mvn --version
+          
       - name: Build 'keystore-example'
         run: mvn clean install -f common/keystore-example/pom.xml
       - name: Build 'npmlib'
