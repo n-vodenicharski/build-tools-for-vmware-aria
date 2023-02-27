@@ -36,34 +36,39 @@ jobs:
       - name: Add packaging profile
         run: |
           sed -i '/<\/settings>/i \
-          <profiles>\
+          	<profiles>\
               <profile>\
-                  <id>my-profile</id>\
-                  <activation>\
-                      <activeByDefault>true</activeByDefault>\
-                  </activation>\
-                  <properties>\
-                      <my.property>my-value</my.property>\
-                  </properties>\
+                <id>packaging</id>\
+                <properties>\
+                  <keystoreGroupId>com.vmware.pscoe.build</keystoreGroupId>\
+                  <keystoreArtifactId>keystore.example</keystoreArtifactId>\
+                  <keystoreVersion>1.0.0</keystoreVersion>\
+                  <vroPrivateKeyPem>target/${keystoreArtifactId}-${keystoreVersion}/private_key.pem</vroPrivateKeyPem>\
+                  <vroCertificatePem>target/${keystoreArtifactId}-${keystoreVersion}/cert.pem</vroCertificatePem>\
+                  <vroKeyPass>VMware1!</vroKeyPass>\
+                </properties>\
               </profile>\
-          </profiles>\
+            </profiles>\
+          <activeProfiles>\
+            <activeProfile>packaging</activeProfile>\
+          </activeProfiles>\
           ' ~/.m2/settings.xml 
         
       - name: Print mvn settings
         run: cat ~/.m2/settings.xml
           
-#       - name: Build 'keystore-example'
-#         run: mvn clean install -f common/keystore-example/pom.xml
-#       - name: Build 'npmlib'
-#         run: mvn clean install -f maven/npmlib/pom.xml 
-#       - name: Build 'iac'
-#         run: mvn clean install -f pom.xml 
-#       - name: Build 'base-package'
-#         run: mvn clean install -f maven/base-package/pom.xml
-#       - name: Build 'packages'
-#         run: mvn clean install -f packages/pom.xml 
-#       - name: Build 'typescript-project-all'
-#         run: mvn clean install -f maven/typescript-project-all/pom.xml 
-#       - name: Build 'repository'
-#         run: mvn clean install -f maven/repository/pom.xml 
+      - name: Build 'keystore-example'
+        run: mvn clean install -f common/keystore-example/pom.xml
+      - name: Build 'npmlib'
+        run: mvn clean install -f maven/npmlib/pom.xml 
+      - name: Build 'iac'
+        run: mvn clean install -f pom.xml 
+      - name: Build 'base-package'
+        run: mvn clean install -f maven/base-package/pom.xml
+      - name: Build 'packages'
+        run: mvn clean install -f packages/pom.xml 
+      - name: Build 'typescript-project-all'
+        run: mvn clean install -f maven/typescript-project-all/pom.xml 
+      - name: Build 'repository'
+        run: mvn clean install -f maven/repository/pom.xml 
       
